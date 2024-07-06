@@ -8,13 +8,14 @@ package connector
 import (
 	"encoding/json"
 	"os"
-	"uidealist/app/crud"
+
+	"github.com/UIdealist/Uidealist-Access-Ms/app/crud"
 )
 
 var CONNECTOR_URL string
 
 func Init() {
-	CONNECTOR_URL = os.Getenv("CONNECTOR_URL")
+	CONNECTOR_URL = os.Getenv("ACCESS_CONNECTOR_URL")
 }
 
 func GetConnectorURL() string {

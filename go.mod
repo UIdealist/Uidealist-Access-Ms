@@ -1,4 +1,4 @@
-module uidealist
+module github.com/UIdealist/Uidealist-Access-Ms
 
 go 1.22
 

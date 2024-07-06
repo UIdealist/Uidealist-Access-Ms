@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"uidealist/app/crud"
-	"uidealist/pkg/repository"
+	"github.com/UIdealist/Uidealist-Access-Ms/app/crud"
+	"github.com/UIdealist/Uidealist-Access-Ms/pkg/repository"
 
 	"github.com/casbin/casbin/v2"
 	"github.com/gofiber/fiber/v2"

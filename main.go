@@ -9,14 +9,14 @@ import (
 	psqlwatcher "github.com/IguteChung/casbin-psql-watcher"
 	gormadapter "github.com/casbin/gorm-adapter/v3"
 
-	"uidealist/pkg/configs"
-	"uidealist/pkg/middleware"
-	"uidealist/pkg/routes"
-	"uidealist/pkg/utils"
+	"github.com/UIdealist/Uidealist-Access-Ms/pkg/configs"
+	"github.com/UIdealist/Uidealist-Access-Ms/pkg/middleware"
+	"github.com/UIdealist/Uidealist-Access-Ms/pkg/routes"
+	"github.com/UIdealist/Uidealist-Access-Ms/pkg/utils"
 
 	"github.com/gofiber/fiber/v2"
 
-	_ "uidealist/docs" // load API Docs files (Swagger)
+	_ "github.com/UIdealist/Uidealist-Access-Ms/docs" // load API Docs files (Swagger)
 
 	_ "github.com/joho/godotenv/autoload" // load .env file automatically
 )

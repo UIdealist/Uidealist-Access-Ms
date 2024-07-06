@@ -1,8 +1,8 @@
 package routes
 
 import (
-	"uidealist/app/controllers"
-	"uidealist/pkg/utils"
+	"github.com/UIdealist/Uidealist-Access-Ms/app/controllers"
+	"github.com/UIdealist/Uidealist-Access-Ms/pkg/utils"
 
 	"github.com/casbin/casbin/v2"
 	"github.com/gofiber/fiber/v2"
