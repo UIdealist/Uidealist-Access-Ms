@@ -14,7 +14,7 @@ import (
 // @Tags Access
 // @Accept json
 // @Produce json
-// @Param policies body crud.AccessList true "Policies to check"
+// @Param policies body crud.AccessList[string] true "Policies to check"
 // @Success 200 {string} status "ok"
 // @Router /v1/check [post]
 func CheckAccess(e *casbin.Enforcer, c *fiber.Ctx) error {
@@ -58,7 +58,7 @@ func CheckAccess(e *casbin.Enforcer, c *fiber.Ctx) error {
 // @Tags Access
 // @Accept json
 // @Produce json
-// @Param policies body crud.AccessList true "Policies to grant"
+// @Param policies body crud.AccessList[string] true "Policies to grant"
 // @Success 200 {string} status "ok"
 // @Router /v1/grant [post]
 func GrantAccess(e *casbin.Enforcer, c *fiber.Ctx) error {
@@ -98,7 +98,7 @@ func GrantAccess(e *casbin.Enforcer, c *fiber.Ctx) error {
 // @Tags Access
 // @Accept json
 // @Produce json
-// @Param policies body crud.AccessList true "Policies to revoke"
+// @Param policies body crud.AccessList[string] true "Policies to revoke"
 // @Success 200 {string} status "ok"
 // @Router /v1/revoke [post]
 func RevokeAccess(e *casbin.Enforcer, c *fiber.Ctx) error {
@@ -138,7 +138,7 @@ func RevokeAccess(e *casbin.Enforcer, c *fiber.Ctx) error {
 // @Tags Access
 // @Accept json
 // @Produce json
-// @Param policies body crud.AccessList true "Policies to update"
+// @Param policies body crud.AccessListUpdate true "Policies to update"
 // @Success 200 {string} status "ok"
 // @Router /v1/update [post]
 func UpdateAccess(e *casbin.Enforcer, c *fiber.Ctx) error {

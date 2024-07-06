@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "Idealist project API Docs.",
+        "description": "UIdealist Authorization project API Docs.",
         "termsOfService": "http://swagger.io/terms/",
         "contact": {
             "name": "API Support",
@@ -15,9 +15,9 @@
     },
     "basePath": "/api",
     "paths": {
-        "/v1/team": {
+        "/v1/check": {
             "post": {
-                "description": "Create a new team",
+                "description": "Checks against a RBAC policy if a user is allowed to access a resource.",
                 "consumes": [
                     "application/json"
                 ],
@@ -25,22 +25,22 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Team"
+                    "Access"
                 ],
-                "summary": "Create a new team",
+                "summary": "Check if resource is accessible by user",
                 "parameters": [
                     {
-                        "description": "Team Data",
-                        "name": "data",
+                        "description": "Policies to check",
+                        "name": "policies",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/crud.TeamCreate"
+                            "$ref": "#/definitions/crud.AccessList-string"
                         }
                     }
                 ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "ok",
                         "schema": {
                             "type": "string"
@@ -49,9 +49,9 @@
                 }
             }
         },
-        "/v1/team/members/add": {
+        "/v1/grant": {
             "post": {
-                "description": "Add a member to a team",
+                "description": "Alters a RBAC policy to grant access to a resource.",
                 "consumes": [
                     "application/json"
                 ],
@@ -59,22 +59,22 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Team"
+                    "Access"
                 ],
-                "summary": "Create a new team",
+                "summary": "Grant access to resource",
                 "parameters": [
                     {
-                        "description": "New member data",
-                        "name": "data",
+                        "description": "Policies to grant",
+                        "name": "policies",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/crud.TeamAddMember"
+                            "$ref": "#/definitions/crud.AccessList-string"
                         }
                     }
                 ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "ok",
                         "schema": {
                             "type": "string"
@@ -83,9 +83,9 @@
                 }
             }
         },
-        "/v1/user": {
+        "/v1/revoke": {
             "post": {
-                "description": "Create a new user given username and email",
+                "description": "Alters a RBAC policy to revoke access to a resource.",
                 "consumes": [
                     "application/json"
                 ],
@@ -93,22 +93,22 @@
                     "application/json"
                 ],
                 "tags": [
-                    "User"
+                    "Access"
                 ],
-                "summary": "Create a new user",
+                "summary": "Revoke access to resource",
                 "parameters": [
                     {
-                        "description": "User data",
-                        "name": "data",
+                        "description": "Policies to revoke",
+                        "name": "policies",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/crud.UserCreate"
+                            "$ref": "#/definitions/crud.AccessList-string"
                         }
                     }
                 ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "ok",
                         "schema": {
                             "type": "string"
@@ -117,9 +117,9 @@
                 }
             }
         },
-        "/v1/user/anonymous": {
+        "/v1/update": {
             "post": {
-                "description": "Create a new user given username",
+                "description": "Alters a RBAC policy to update access to a resource.",
                 "consumes": [
                     "application/json"
                 ],
@@ -127,22 +127,22 @@
                     "application/json"
                 ],
                 "tags": [
-                    "User"
+                    "Access"
                 ],
-                "summary": "Create a new user",
+                "summary": "Update access to resource",
                 "parameters": [
                     {
-                        "description": "Anonymous User Data",
-                        "name": "data",
+                        "description": "Policies to update",
+                        "name": "policies",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/crud.AnonymousUserCreate"
+                            "$ref": "#/definitions/crud.AccessListUpdate"
                         }
                     }
                 ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "ok",
                         "schema": {
                             "type": "string"
@@ -153,80 +153,61 @@
         }
     },
     "definitions": {
-        "crud.AnonymousUserCreate": {
+        "crud.Access-string": {
             "type": "object",
             "required": [
-                "temp_name"
+                "actId",
+                "resId",
+                "usrId"
             ],
             "properties": {
-                "temp_name": {
-                    "type": "string",
-                    "maxLength": 255
+                "actId": {
+                    "type": "string"
+                },
+                "resId": {
+                    "type": "string"
+                },
+                "usrId": {
+                    "type": "string"
                 }
             }
         },
-        "crud.TeamAddMember": {
+        "crud.AccessList-string": {
             "type": "object",
-            "required": [
-                "member_id",
-                "team_id",
-                "user_id"
-            ],
             "properties": {
-                "member_id": {
-                    "type": "string",
-                    "maxLength": 255
-                },
-                "team_id": {
-                    "type": "string",
-                    "maxLength": 255
-                },
-                "user_id": {
-                    "type": "string",
-                    "maxLength": 255
+                "policies": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/crud.Access-string"
+                    }
                 }
             }
         },
-        "crud.TeamCreate": {
+        "crud.AccessListUpdate": {
             "type": "object",
-            "required": [
-                "team_name",
-                "user_id"
-            ],
             "properties": {
-                "team_name": {
-                    "type": "string",
-                    "maxLength": 255
-                },
-                "user_id": {
-                    "type": "string",
-                    "maxLength": 255
+                "policies": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/crud.AccessUpdate"
+                    }
                 }
             }
         },
-        "crud.UserCreate": {
+        "crud.AccessUpdate": {
             "type": "object",
             "required": [
-                "email",
-                "username"
+                "new",
+                "old"
             ],
             "properties": {
-                "email": {
-                    "type": "string",
-                    "maxLength": 255
+                "new": {
+                    "$ref": "#/definitions/crud.Access-string"
                 },
-                "username": {
-                    "type": "string",
-                    "maxLength": 255
+                "old": {
+                    "$ref": "#/definitions/crud.Access-string"
                 }
             }
-        }
-    },
-    "securityDefinitions": {
-        "ApiKeyAuth": {
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header"
         }
     }
 }

@@ -16,7 +16,7 @@ func PerformRequest(url string, method string, data []byte) ([]byte, error) {
 	}
 
 	client := &http.Client{}
-	_, err = client.Do(req)
+	res, err := client.Do(req)
 
 	if err != nil {
 		return nil, err
@@ -24,7 +24,7 @@ func PerformRequest(url string, method string, data []byte) ([]byte, error) {
 
 	defer req.Body.Close()
 
-	body, err := ioutil.ReadAll(req.Body)
+	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		return nil, err
 	}

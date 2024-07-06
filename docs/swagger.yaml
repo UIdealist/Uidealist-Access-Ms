@@ -1,155 +1,139 @@
 basePath: /api
 definitions:
-  crud.AnonymousUserCreate:
+  crud.Access-string:
     properties:
-      temp_name:
-        maxLength: 255
+      actId:
+        type: string
+      resId:
+        type: string
+      usrId:
         type: string
     required:
-    - temp_name
+    - actId
+    - resId
+    - usrId
     type: object
-  crud.TeamAddMember:
+  crud.AccessList-string:
     properties:
-      member_id:
-        maxLength: 255
-        type: string
-      team_id:
-        maxLength: 255
-        type: string
-      user_id:
-        maxLength: 255
-        type: string
-    required:
-    - member_id
-    - team_id
-    - user_id
+      policies:
+        items:
+          $ref: '#/definitions/crud.Access-string'
+        type: array
     type: object
-  crud.TeamCreate:
+  crud.AccessListUpdate:
     properties:
-      team_name:
-        maxLength: 255
-        type: string
-      user_id:
-        maxLength: 255
-        type: string
-    required:
-    - team_name
-    - user_id
+      policies:
+        items:
+          $ref: '#/definitions/crud.AccessUpdate'
+        type: array
     type: object
-  crud.UserCreate:
+  crud.AccessUpdate:
     properties:
-      email:
-        maxLength: 255
-        type: string
-      username:
-        maxLength: 255
-        type: string
+      new:
+        $ref: '#/definitions/crud.Access-string'
+      old:
+        $ref: '#/definitions/crud.Access-string'
     required:
-    - email
-    - username
+    - new
+    - old
     type: object
 info:
   contact:
     email: edgardanielgd123@gmail.com
     name: API Support
-  description: Idealist project API Docs.
+  description: UIdealist Authorization project API Docs.
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   termsOfService: http://swagger.io/terms/
   version: "1.0"
 paths:
-  /v1/team:
+  /v1/check:
     post:
       consumes:
       - application/json
-      description: Create a new team
+      description: Checks against a RBAC policy if a user is allowed to access a resource.
       parameters:
-      - description: Team Data
+      - description: Policies to check
         in: body
-        name: data
+        name: policies
         required: true
         schema:
-          $ref: '#/definitions/crud.TeamCreate'
+          $ref: '#/definitions/crud.AccessList-string'
       produces:
       - application/json
       responses:
-        "201":
+        "200":
           description: ok
           schema:
             type: string
-      summary: Create a new team
+      summary: Check if resource is accessible by user
       tags:
-      - Team
-  /v1/team/members/add:
+      - Access
+  /v1/grant:
     post:
       consumes:
       - application/json
-      description: Add a member to a team
+      description: Alters a RBAC policy to grant access to a resource.
       parameters:
-      - description: New member data
+      - description: Policies to grant
         in: body
-        name: data
+        name: policies
         required: true
         schema:
-          $ref: '#/definitions/crud.TeamAddMember'
+          $ref: '#/definitions/crud.AccessList-string'
       produces:
       - application/json
       responses:
-        "201":
+        "200":
           description: ok
           schema:
             type: string
-      summary: Create a new team
+      summary: Grant access to resource
       tags:
-      - Team
-  /v1/user:
+      - Access
+  /v1/revoke:
     post:
       consumes:
       - application/json
-      description: Create a new user given username and email
+      description: Alters a RBAC policy to revoke access to a resource.
       parameters:
-      - description: User data
+      - description: Policies to revoke
         in: body
-        name: data
+        name: policies
         required: true
         schema:
-          $ref: '#/definitions/crud.UserCreate'
+          $ref: '#/definitions/crud.AccessList-string'
       produces:
       - application/json
       responses:
-        "201":
+        "200":
           description: ok
           schema:
             type: string
-      summary: Create a new user
+      summary: Revoke access to resource
       tags:
-      - User
-  /v1/user/anonymous:
+      - Access
+  /v1/update:
     post:
       consumes:
       - application/json
-      description: Create a new user given username
+      description: Alters a RBAC policy to update access to a resource.
       parameters:
-      - description: Anonymous User Data
+      - description: Policies to update
         in: body
-        name: data
+        name: policies
         required: true
         schema:
-          $ref: '#/definitions/crud.AnonymousUserCreate'
+          $ref: '#/definitions/crud.AccessListUpdate'
       produces:
       - application/json
       responses:
-        "201":
+        "200":
           description: ok
           schema:
             type: string
-      summary: Create a new user
+      summary: Update access to resource
       tags:
-      - User
-securityDefinitions:
-  ApiKeyAuth:
-    in: header
-    name: Authorization
-    type: apiKey
+      - Access
 swagger: "2.0"
